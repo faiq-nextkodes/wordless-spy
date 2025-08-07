@@ -1,0 +1,16 @@
+<p><%= notice %></p>
+
+<% content_for :title, "Rooms" %>
+
+<h1>Rooms</h1>
+
+<div id="rooms">
+  <% @rooms.order(created_at: :desc).each do |room| %>
+  <ul class="list-group">
+  <li class="list-group-item d-flex justify-content-between align-items-center">
+    <%= render room %>
+    <%= button_to "🗑", room, method: :delete, class:"input-group-text", data: { turbo_confirm: "Are you sure?" } if current_user.id == room.user_id %>
+  </li>
+  </ul>
+  <% end %>
+</div>

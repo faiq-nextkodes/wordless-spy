@@ -1,0 +1,24 @@
+<%= form_with(model: room) do |form| %>
+  <% if room.errors.any? %>
+      <h2><%= pluralize(room.errors.count, "error") %> prohibited this room from being saved:</h2>
+
+      <ul>
+        <% room.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+  <% end %>
+
+  <div class="mb-3">
+    <%= form.label :name, style: "display: block", class:"form-label" %>
+    <%= form.text_field :name, class:"form-control" %>
+  </div>
+  
+  <div class="mb-3">
+    <%= form.hidden_field :user_id, value: current_user.id, class:"form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.submit class:"btn btn-primary" %>
+  </div>
+<% end %>

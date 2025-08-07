@@ -1,0 +1,23 @@
+<div class="row">
+    <div class="col-md-8"></div>
+    <div class="col-md-4">
+        <% if user_signed_in? %>
+            <div class="d-grid mb-4">
+                <%= link_to "Create Room", new_room_path, class: "btn btn-primary" %>
+            </div>
+            <div class="dashboard-rooms-list mb-4">
+                <% @rooms.each do |room| %>
+                    <ul class="list-group">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <%= render room %>
+                            <%= button_to "🗑", room, method: :delete, class:"input-group-text", data: { turbo_confirm: "Are you sure?" } if current_user.id == room.user_id %>
+                        </li>
+                    </ul>
+                <% end %>
+            </div>
+            <div class="d-grid">
+                <%= link_to "Show all rooms", rooms_path, class: "btn btn-primary" %>
+            </div>
+        <% end %>
+    </div>
+</div>

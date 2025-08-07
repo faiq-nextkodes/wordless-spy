@@ -1,0 +1,11 @@
+<div id="<%= dom_id room %>">
+  <p>
+    <strong><%= link_to room.name, room %></strong> - <%= room.user.email %>
+      <% if current_user.id == room.user_id %>
+        <%= link_to edit_room_path(room), class: "text-dark me-2" do %>
+          <i class="bi bi-pencil-fill"></i>
+        <% end %>
+        
+      <% end %>
+  </p>
+</div>
