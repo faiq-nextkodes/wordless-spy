@@ -10,15 +10,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_05_141953) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_07_112249) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
-  create_table "rooms", force: :cascade do |t|
-    t.string "name"
-    t.integer "user_id", null: false
+  create_table "games", force: :cascade do |t|
+    t.bigint "room_id", null: false
+    t.string "villagers_word"
+    t.string "words_list", default: [], array: true
+    t.jsonb "players_hash", default: {"1" => nil, "2" => nil, "3" => nil, "4" => nil, "5" => nil, "6" => nil}
+    t.integer "status", default: 0, null: false
+    t.integer "result"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["room_id"], name: "index_games_on_room_id"
+  end
+
+  create_table "rooms", force: :cascade do |t|
+    t.string "name"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "current_game_id"
+    t.index ["current_game_id"], name: "index_rooms_on_current_game_id", unique: true
     t.index ["name"], name: "index_rooms_on_name", unique: true
     t.index ["user_id"], name: "index_rooms_on_user_id"
   end
@@ -35,5 +49,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_05_141953) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "games", "rooms"
+  add_foreign_key "rooms", "games", column: "current_game_id"
   add_foreign_key "rooms", "users"
 end
