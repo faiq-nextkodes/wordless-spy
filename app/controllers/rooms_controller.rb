@@ -1,6 +1,7 @@
 class RoomsController < ApplicationController
-  before_action :set_room, only: %i[ show edit update destroy ]
   before_action :authenticate_user!, only: %i[ index show new edit create destroy ]
+  before_action :set_room, only: %i[ show edit update destroy leave ]
+  before_action :set_game, only: %i[ show leave ]
   before_action :verify_owner, only: %i[ edit update destroy ]
 
   def index
@@ -8,6 +9,7 @@ class RoomsController < ApplicationController
   end
 
   def show
+    redirect_to root_path, alert: @game.errors.full_messages.to_sentence unless @game.join_game(current_user.id)
   end
 
   def new
@@ -43,12 +45,22 @@ class RoomsController < ApplicationController
     redirect_to dashboard_users_path, notice: "Room was successfully destroyed."
   end
 
+  def leave
+    @game.leave_game(current_user.id)
+    redirect_to root_path
+  end
+
   private
 
   def set_room
     @room = Room.find_by(id: params[:id])
     redirect_to dashboard_users_path, error: "Room Not found" if @room == nil
   end
+
+  def set_game
+    @game = @room.current_game
+  end
+
 
   def room_params
     params.expect(room: [ :name, :user_id ])

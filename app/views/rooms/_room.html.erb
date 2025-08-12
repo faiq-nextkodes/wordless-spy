@@ -1,11 +1,9 @@
-<div id="<%= dom_id room %>">
+<div id="room-id" data-room-id="<%= room.id %>">
   <p>
-    <strong><%= link_to room.name, room %></strong> - <%= room.user.email %>
-      <% if current_user.id == room.user_id %>
-        <%= link_to edit_room_path(room), class: "text-dark me-2" do %>
-          <i class="bi bi-pencil-fill"></i>
-        <% end %>
-        
-      <% end %>
+    <strong><%= link_to room.name, room, data: { turbo_prefetch: false } %></strong>
+    - <%= room.user.email %>
+    - Players: <span data-room-count-id="<%= room.id %>">
+      <%= room.current_game&.players_hash&.values&.compact&.size || 0 %>/6
+    </span>
   </p>
 </div>

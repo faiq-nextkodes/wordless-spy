@@ -1,3 +1,20 @@
-<p><%= notice %></p>
-
-<%= render @room %>
+<div class="game-room-container">
+  <div class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col-12 col-lg-10">
+        <h2 class="room-title text-center mb-4"><%= @room.name %></h2>
+        <div id="room-id" data-room-id="<%= @room.id %>"></div>
+        <div id="players" class="players-grid">
+          <%= render partial: "player_list", locals: { players_hash: @game.players_hash } %>
+        </div>
+        
+        <div class="leave-button-container text-center mt-4">
+          <%= button_to "Leave Game", leave_room_path(@room), 
+                        method: :post, 
+                        class: "btn btn-danger btn-lg leave-btn",
+                        confirm: "Are you sure you want to leave the game?" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

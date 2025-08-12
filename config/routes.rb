@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  resources :rooms
+  resources :rooms do
+    post :leave, on: :member
+  end
 
   devise_for :users
 
@@ -12,4 +14,6 @@ Rails.application.routes.draw do
   end
 
   root "pages#home"
+
+  mount ActionCable.server => "/cable"
 end

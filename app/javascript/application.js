@@ -1,11 +1,26 @@
 import "@hotwired/turbo-rails"
 import "controllers"
 import "bootstrap"
-// Optional: Initialize all Bootstrap components
-document.addEventListener("DOMContentLoaded", function() {
-// Initialize Bootstrap tooltips
-var tooltipTriggerList = [ ].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-return new bootstrap.Tooltip(tooltipTriggerEl)
+import "channels"
+import "jquery"
+
+$(function () {
+  $('[data-bs-toggle="tooltip"]').each(function () {
+    new bootstrap.Tooltip(this)
+  })
 })
-})
+
+window.roomSubscription = null;
+
+$(document).on("turbo:load", function () {
+  const $roomElement = $("#room-id");
+  if ($roomElement.length === 0) return; // no room on this page
+
+  const roomId = $roomElement.data("room-id");
+
+  if (window.roomSubscription) {
+    window.roomSubscription.unsubscribe();
+  }
+
+  window.roomSubscription = subscribeToRoom(roomId);
+});

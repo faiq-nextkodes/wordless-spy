@@ -7,9 +7,16 @@
 <div id="rooms">
   <% @rooms.order(created_at: :desc).each do |room| %>
   <ul class="list-group">
-  <li class="list-group-item d-flex justify-content-between align-items-center">
+  <li class="list-group-item d-flex align-items-center">
     <%= render room %>
-    <%= button_to "🗑", room, method: :delete, class:"input-group-text", data: { turbo_confirm: "Are you sure?" } if current_user.id == room.user_id %>
+    <div class="ms-auto d-flex align-items-center">
+      <% if current_user.id == room.user_id %>
+        <%= link_to edit_room_path(room), class: "text-dark me-2" do %>
+          <i class="bi bi-pencil-fill"></i>
+        <% end %>
+        <%= button_to "🗑", room, method: :delete, class: "input-group-text", data: { turbo_confirm: "Are you sure?" } %>
+      <% end %>
+    </div>
   </li>
   </ul>
   <% end %>
