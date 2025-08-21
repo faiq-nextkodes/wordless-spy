@@ -18,9 +18,13 @@ $(document).on("turbo:load", function () {
 
   const roomId = $roomElement.data("room-id");
 
-  if (window.roomSubscription) {
-    window.roomSubscription.unsubscribe();
-  }
-
   window.roomSubscription = subscribeToRoom(roomId);
+
+  const $el = $("#game-data");
+  if ($el.length === 0) return;
+
+  window.gameData = {
+    currentUserId: $el.data("current-user-id") || null
+  };
 });
+

@@ -71,3 +71,5 @@ gem "devise", "~> 4.9"
 gem "pg", "~> 1.6"
 
 gem "redis", "~> 5.4"
+
+gem "ruby-openai"

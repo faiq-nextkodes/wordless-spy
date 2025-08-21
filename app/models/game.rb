@@ -8,6 +8,8 @@ class Game < ApplicationRecord
 
   after_save :start_new_game, if: :finished?
 
+  has_one :spy, class_name: "User"
+
   belongs_to :room
 
   enum :status, { room_assigned: 0, started: 1, finished: 2 }
@@ -29,6 +31,19 @@ class Game < ApplicationRecord
       save
       broadcast_players_update
     end
+  end
+
+  def initialize_new_game
+    service = WordlessSpy::OpenAiWordService.new
+
+    data = service.fetch_words
+
+    category = data.keys.first
+    word_list = data[category]
+
+    update!(status: :started, category: category, words_list: word_list, villagers_word: word_list.sample, spy_id: players_hash.values.sample)
+
+    broadcast_game_start_modal
   end
 
   private
@@ -53,6 +68,34 @@ class Game < ApplicationRecord
           locals: { players_hash: players_hash }
         ),
         player_count: player_count
+      }
+    )
+    broadcast_start_button
+  end
+
+  def broadcast_start_button
+    ActionCable.server.broadcast(
+      "room_#{room_id}_channel",
+      {
+        show_start_button: !players_hash.values.any?(nil),
+        button_data: {
+          game_id: id,
+          owner_id: players_hash["1"]
+        }
+      }
+    )
+  end
+
+  def broadcast_game_start_modal
+    ActionCable.server.broadcast(
+      "room_#{room_id}_channel",
+      {
+        show_game_data: true,
+        modal_game_data: {
+          spy_id: spy_id,
+          category: category,
+          villagers_word: villagers_word
+        }
       }
     )
   end

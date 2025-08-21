@@ -3,6 +3,10 @@ Rails.application.routes.draw do
     post :leave, on: :member
   end
 
+  resources :games do
+    post :start, on: :member
+  end
+
   devise_for :users
 
   resources :users do

@@ -61,7 +61,6 @@ class RoomsController < ApplicationController
     @game = @room.current_game
   end
 
-
   def room_params
     params.expect(room: [ :name, :user_id ])
   end
