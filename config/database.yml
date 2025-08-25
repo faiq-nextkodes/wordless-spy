@@ -16,6 +16,18 @@ test:
   database: wordless_spy_test
 
 production:
-  <<: *default
-  url: <%= ENV["DATABASE_URL"] %>
-  database: wordless_spy_production
+  primary:
+    <<: *default
+    url: <%= ENV["DATABASE_URL"] %>
+    database: wordless_spy_production
+
+  cable:
+    <<: *default
+    url: <%= ENV["DATABASE_URL"] %>
+    database: wordless_spy_production
+
+  queue:
+    <<: *default
+    url: <%= ENV["DATABASE_URL"] %>
+    database: wordless_spy_production
+
