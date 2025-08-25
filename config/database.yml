@@ -21,18 +21,3 @@ production:
     url: <%= ENV["DATABASE_URL"] %>
     database: wordless_spy_production
 
-  cable:
-    <<: *default
-    url: <%= ENV["DATABASE_URL"] %>
-    database: wordless_spy_production
-
-  queue:
-    <<: *default
-    url: <%= ENV["DATABASE_URL"] %>
-    database: wordless_spy_production
-
-  cache:
-    <<: *default
-    url: <%= ENV["DATABASE_URL"] %>
-    database: wordless_spy_production
-
