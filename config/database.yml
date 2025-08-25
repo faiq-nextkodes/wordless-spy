@@ -1,23 +1,32 @@
 default: &default
   adapter: postgresql
   encoding: unicode
-  host: localhost
-  username: wordless-spy       # ← Change if you're using a different DB user
-  password: wordless-spy
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   timeout: 5000
 
 development:
   <<: *default
   database: wordless_spy_development
+  host: localhost
+  username: wordless-spy
+  password: wordless-spy
 
 test:
   <<: *default
   database: wordless_spy_test
+  host: localhost
+  username: wordless-spy
+  password: wordless-spy
 
 production:
-  <<: *default
-  url: <%= ENV["DATABASE_URL"] %>
-  database: wordless_spy_production
-  username: wordless_spy_prod_user
-  password: <%= ENV["WORDLESS_SPY_DATABASE_PASSWORD"] %>
+  primary:
+    <<: *default
+    url: <%= ENV["DATABASE_URL"] %>
+
+  queue:
+    <<: *default
+    url: <%= ENV["DATABASE_URL"] %>
+
+  cable:
+    <<: *default
+    url: <%= ENV["DATABASE_URL"] %>
