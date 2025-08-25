@@ -31,3 +31,8 @@ production:
     url: <%= ENV["DATABASE_URL"] %>
     database: wordless_spy_production
 
+  cache:
+    <<: *default
+    url: <%= ENV["DATABASE_URL"] %>
+    database: wordless_spy_production
+
