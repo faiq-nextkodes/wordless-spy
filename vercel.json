@@ -1,0 +1,20 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "Dockerfile",
+      "use": "@vercel/docker"
+    }
+  ],
+  "env": {
+    "RAILS_ENV": "production",
+    "DATABASE_URL": "@database_url",
+    "RAILS_MASTER_KEY": "@rails_master_key"
+  },
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/"
+    }
+  ]
+}
