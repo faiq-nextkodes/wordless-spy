@@ -13,12 +13,13 @@
 ActiveRecord::Schema[8.0].define(version: 2025_08_15_134807) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+  enable_extension "vector"
 
   create_table "games", force: :cascade do |t|
     t.bigint "room_id", null: false
     t.string "villagers_word"
     t.string "words_list", default: [], array: true
-    t.jsonb "players_hash", default: {"1" => [nil, "alive"], "2" => [nil, "alive"], "3" => [nil, "alive"], "4" => [nil, "alive"], "5" => [nil, "alive"], "6" => [nil, "alive"]}
+    t.jsonb "players_hash", default: {"1"=>[nil, "alive"], "2"=>[nil, "alive"], "3"=>[nil, "alive"], "4"=>[nil, "alive"], "5"=>[nil, "alive"], "6"=>[nil, "alive"]}
     t.integer "status", default: 0, null: false
     t.integer "result"
     t.datetime "created_at", null: false
