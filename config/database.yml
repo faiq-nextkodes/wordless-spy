@@ -16,7 +16,8 @@ test:
   database: wordless_spy_test
 
 production:
-  <<: *default
-  database: wordless_spy_production
-  username: wordless_spy_prod_user
-  password: <%= ENV["WORDLESS_SPY_DATABASE_PASSWORD"] %>
+  primary:
+    <<: *default
+    url: <%= ENV["DATABASE_URL"] %>
+    database: wordless_spy_production
+
